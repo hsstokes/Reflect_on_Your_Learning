@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            background-image:
+                linear-gradient(#20B2AA 1px, transparent 1px),
+                linear-gradient(90deg, #20B2AA 1px, transparent 1px),
+                linear-gradient(#FFB6C1 1px, transparent 1px),
+                linear-gradient(90deg, #FFB6C1 1px, transparent 1px),
+                linear-gradient(rgba(32, 178, 170, 0.3) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(32, 178, 170, 0.3) 1px, transparent 1px);
+            background-size: 
+                50px 50px,
+                50px 50px,
+                10px 10px,
+                10px 10px,
+                25px 25px,
+                25px 25px;
+            background-position:
+                -1px -1px,
+                -1px -1px,
+                -1px -1px,
+                -1px -1px,
+                -1px -1px,
+                -1px -1px;
+        }
+        
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            backdrop-filter: blur(5px);
+        }
+
+        h1 {
+            text-align: center;
+            color: #20B2AA;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #20B2AA;
+            padding-bottom: 10px;
+        }
+
+        .question {
+            margin-bottom: 25px;
+            padding: 15px;
+            background-color: rgba(248, 248, 248, 0.9);
+            border-left: 5px solid #20B2AA;
+            backdrop-filter: blur(3px);
+        }
+
+        .question p {
+            color: #20B2AA;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .options {
+            margin-top: 10px;
+        }
+
+        .option {
+            display: block;
+            padding: 10px;
+            margin: 5px 0;
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 1px solid #ddd;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #FFB6C1;
+            font-weight: bold;
+        }
+
+        .option:hover {
+            background-color: rgba(240, 240, 240, 0.95);
+            transform: translateX(5px);
+            color: #20B2AA;
+        }
+
+        .selected {
+            background-color: #20B2AA;
+            color: white;
+        }
+
+        #result {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 5px;
+            color: #20B2AA;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>Reflect on Your Learning</h1>
+        <div class="question">
+            <p>1. What was the most valuable thing you learned today?</p>
+            <div class="options">
+                <div class="option">How to break a task into smaller steps</div>
+                <div class="option">How to use a new tool or technique</div>
+                <div class="option">How feedback helped improve my work</div>
+                <div class="option">How to manage my time effectively</div>
+            </div>
+        </div>
+
+        <div class="question">
+            <p>2. When you got stuck, what did you do to solve the problem?</p>
+            <div class="options">
+                <div class="option">Tried a different approach or tool</div>
+                <div class="option">Asked for help</div>
+                <div class="option">Reviewed the instructions again</div>
+                <div class="option">Experimented until something worked</div>
+            </div>
+        </div>
+
+        <div class="question">
+            <p>3. What will you focus on improving next time?</p>
+            <div class="options">
+                <div class="option">Planning my approach more carefully</div>
+                <div class="option">Paying closer attention to details</div>
+                <div class="option">Experimenting with new tools or techniques</div>
+                <div class="option">Spending more time refining my work</div>
+            </div>
+        </div>
+
+        <div class="question">
+            <p>4. What part of your work are you most proud of?</p>
+            <div class="options">
+                <div class="option">The creative idea or concept I came up with</div>
+                <div class="option">The technical skills I used to complete the task</div>
+                <div class="option">How I stayed focused and managed my time</div>
+                <div class="option">How I improved compared to my previous work</div>
+            </div>
+        </div>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const options = document.querySelectorAll('.option');
+        const resultDiv = document.getElementById('result');
+
+        options.forEach(option => {
+            option.addEventListener('click', function() {
+                const siblings = this.parentElement.children;
+                for (let sibling of siblings) {
+                    sibling.classList.remove('selected');
+                }
+                this.classList.add('selected');
+            });
+        });
+
+        // Simulate result summary on button click
+        const summaryButton = document.createElement('button');
+        summaryButton.textContent = 'See Reflection Summary';
+        summaryButton.style = `
+            display: block;
+            margin: 20px auto;
+            padding: 10px;
+            background-color: #20B2AA;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-transform: uppercase;
+        `;
+        summaryButton.addEventListener('click', function () {
+            const selectedOptions = document.querySelectorAll('.selected');
+            if (selectedOptions.length === 4) {
+                resultDiv.innerHTML = `
+                    <p>You reflected on:</p>
+                    <ul>
+                        ${[...selectedOptions].map(opt => `<li>${opt.textContent}</li>`).join('')}
+                    </ul>
+                    <p>Great work reflecting on your learning process—keep it up!</p>
+                `;
+            } else {
+                resultDiv.textContent = 'Please answer all the questions before submitting!';
+            }
+        });
+
+        document.querySelector('.quiz-container').appendChild(summaryButton);
+    </script>
+</body>
+</html>
